@@ -20,7 +20,7 @@
 -->
 
 <template>
-  <table class="oxd-table">
+  <table class="oxd-classic-table">
     <slot></slot>
   </table>
 </template>

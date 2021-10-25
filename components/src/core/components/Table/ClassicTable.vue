@@ -22,26 +22,21 @@
 <template>
   <oxd-table>
     <colgroup>
-      <col v-if="selectable" :style="{width: selector.width}" />
-      <col
-        v-for="header in headers"
-        :style="{width: header.width}"
-        :key="header"
-      />
+      <col v-if="selectable" :style="{ width: selector.width }" />
+      <col v-for="header in headers" :style="{ width: header.width }" :key="header" />
     </colgroup>
     <oxd-thead>
       <oxd-tr>
         <oxd-th v-if="selectable" class="oxd-padding-cell oxd-table-th">
-          <input
-            type="checkbox"
-            v-model="selectedAll"
-            @change="onChangeSelectAll"
-          />
+          <input type="checkbox" v-model="selectedAll" @change="onChangeSelectAll" />
         </oxd-th>
+
         <oxd-th
           class="oxd-padding-cell oxd-table-th"
-          v-for="header in headers"
-          :key="header"
+          v-for="(header, index) in headers"
+          :key="index"
+          :header="header"
+          @order="onSortingChange"
         >
           {{ header.title }}
         </oxd-th>
@@ -50,7 +45,7 @@
 
     <oxd-tbody :with-strip="withStrip">
       <oxd-tr
-        v-for="(item, index) in items"
+        v-for="(item, index) in dataSet"
         :key="item"
         :clickable="clickable"
         @click="onClick(item)($event)"
@@ -63,12 +58,20 @@
             @click="onClickCheckbox(item, $event)"
           />
         </oxd-td>
-        <oxd-td
-          class="oxd-padding-cell"
-          v-for="header in headers"
-          :key="header"
-        >
-          {{ item[header.name] }}
+        <oxd-td class="oxd-padding-cell" v-for="(header, index) in headers" :key="index">
+          <!-- Default cell renderer -->
+          <oxd-table-action
+            v-if="header.defaultCellConfig"
+            :header="header"
+            :item="item"
+          ></oxd-table-action>
+          <!-- Generic cell renderer  -->
+          <span v-if="header.cellRenderer">
+            <component :is="header.cellRenderer" :data="item"></component>
+          </span>
+          <span v-else>
+            {{ item[header.name] }}
+          </span>
         </oxd-td>
       </oxd-tr>
     </oxd-tbody>
@@ -78,29 +81,32 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import Table from '@orangehrm/oxd/core/components/Table/Table.vue';
-import TableHeader from '@orangehrm/oxd/core/components/Table/TableHeader.vue';
-import TableBody from '@orangehrm/oxd/core/components/Table/TableBody.vue';
-import TableFooter from '@orangehrm/oxd/core/components/Table/TableFooter.vue';
-import TableRow from '@orangehrm/oxd/core/components/Table/TableRow.vue';
-import TableHeaderCell from '@orangehrm/oxd/core/components/Table/TableHeaderCell.vue';
-import TableDataCell from '@orangehrm/oxd/core/components/Table/TableDataCell.vue';
+import { defineComponent } from "vue";
+import { sort } from "fast-sort";
+import Table from "@orangehrm/oxd/core/components/Table/Table.vue";
+import TableHeader from "@orangehrm/oxd/core/components/Table/TableHeader.vue";
+import TableBody from "@orangehrm/oxd/core/components/Table/TableBody.vue";
+import TableFooter from "@orangehrm/oxd/core/components/Table/TableFooter.vue";
+import TableRow from "@orangehrm/oxd/core/components/Table/TableRow.vue";
+import TableHeaderCell from "@orangehrm/oxd/core/components/Table/TableHeaderCell.vue";
+import TableDataCell from "@orangehrm/oxd/core/components/Table/TableDataCell.vue";
+import TableDefaultAction from "@orangehrm/oxd/core/components/Table/TableDefaultAction.vue";
 
 export default defineComponent({
-  name: 'oxd-clasic-table',
+  name: "oxd-clasic-table",
 
   data() {
     return {
-      checkedItems: this.selected as number[],
+      checkedItems: this.selected,
       selectedAll: (this.selected.length === this.items.length) as boolean,
+      dataSet: [],
     };
   },
 
   watch: {
     checkedItems(state) {
       this.selectedAll = state.length === this.items.length;
-      this.$emit('update:selected', state);
+      this.$emit("update:selected", state);
     },
   },
 
@@ -108,7 +114,7 @@ export default defineComponent({
     selector: {
       type: Object,
       default() {
-        return {width: '30px'};
+        return { width: "30px" };
       },
     },
     headers: {
@@ -143,35 +149,48 @@ export default defineComponent({
     },
   },
 
-  emits: ['click', 'clickCheckbox', 'update:selected', 'update:selectAll'],
+  emits: ["click", "clickCheckbox", "update:selected", "update:selectAll"],
 
   components: {
-    'oxd-table': Table,
-    'oxd-thead': TableHeader,
-    'oxd-tbody': TableBody,
-    'oxd-tfoot': TableFooter,
-    'oxd-tr': TableRow,
-    'oxd-th': TableHeaderCell,
-    'oxd-td': TableDataCell,
+    "oxd-table": Table,
+    "oxd-thead": TableHeader,
+    "oxd-tbody": TableBody,
+    "oxd-tfoot": TableFooter,
+    "oxd-tr": TableRow,
+    "oxd-th": TableHeaderCell,
+    "oxd-td": TableDataCell,
+    "oxd-table-action": TableDefaultAction,
   },
 
+  mounted() {
+    this.dataSet = this.items;
+  },
   methods: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onClick(item: any) {
       return (e: Event) => {
-        this.$emit('click', {item, native: e});
+        this.$emit("click", { item, native: e });
       };
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onClickCheckbox(item: any, e: Event) {
       e.stopPropagation();
-      this.$emit('clickCheckbox', {item, native: e});
+      this.$emit("clickCheckbox", { item, native: e });
     },
     onChangeSelectAll() {
-      this.checkedItems = this.selectedAll
-        ? [...Array(this.items.length).keys()]
-        : [];
-      this.$emit('update:selectAll', this.selectedAll);
+      this.checkedItems = this.selectedAll ? [...Array(this.items.length).keys()] : [];
+      this.$emit("update:selectAll", this.selectedAll);
+    },
+    onSortingChange(event: any) {
+      const header = event.header;
+      let sortedItems: any[] = [];
+      if (event && event.order === "ASC") {
+        sortedItems = sort(this.items).asc((u: any) => u[header.name]);
+        this.dataSet = sortedItems;
+      } else {
+        sortedItems = sort(this.items).desc((u: any) => u[header.name]);
+        this.dataSet = sortedItems;
+      }
     },
   },
 });

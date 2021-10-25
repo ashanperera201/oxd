@@ -17,7 +17,35 @@
  * along with this program.  If not, see  http://www.gnu.org/licenses
  */
 
-import mitt from 'mitt';
+import { VNodeProps } from 'vue';
 
-const emitter = mitt();
-export default emitter;
+export interface ActionsCellConfig<T> {
+    [key: string]: Action<T>;
+}
+
+export type ActionsCellConfigOnClickFunction<T> = (
+    rowItem: T,
+    e: Event,
+) => void;
+
+export interface Action<T> {
+    onClick?: ActionsCellConfigOnClickFunction<T>;
+    component?: string;
+    props?: VNodeProps;
+}
+
+export interface RowItem {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
+    isSelectable?: boolean;
+    isDisabled?: boolean;
+}
+
+export interface ActionCellEvent extends MouseEvent {
+    context?: string;
+}
+
+export type DropdownOption = {
+    label: string;
+    context: string;
+};

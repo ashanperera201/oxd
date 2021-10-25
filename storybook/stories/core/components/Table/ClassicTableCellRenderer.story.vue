@@ -27,7 +27,8 @@
     @click="onClick"
     selectable
     v-model:selected="checkedItems"
-  />
+  >
+  </oxd-clasic-table>
 </template>
 
 <script>
@@ -41,28 +42,20 @@ export default {
         width: "3%",
       },
       headers: [
+        { name: "col1", title: "Column 1", width: "40%" },
+        { name: "col2", title: "Column 2", width: "20%" },
         {
-          name: "col1",
-          title: "Column 1",
+          name: "col3",
+          title: "Action",
           width: "40%",
-        },
-        {
-          name: "col2",
-          title: "Column 2",
-          width: "20%",
+          cellRenderer: ClassicCellRenderer,
         },
       ],
       items: [
+        { col1: "Data 1", col2: "Data 2" },
+        { col1: "Data 2", col2: "Data 2" },
         {
-          col1: "Cata 1",
-          col2: "Data 2",
-        },
-        {
-          col1: "Data 2",
-          col2: "Data 2",
-        },
-        {
-          col1: "Eata 3",
+          col1: "Data 3",
           col2:
             "Lorem Ipsum is simply dummy text of the printing and typesettin ",
         },
@@ -70,7 +63,6 @@ export default {
       checkedItems: [2, 0],
     };
   },
-
   components: {
     "oxd-clasic-table": ClassicTable,
     "class-table": ClassicCellRenderer,
