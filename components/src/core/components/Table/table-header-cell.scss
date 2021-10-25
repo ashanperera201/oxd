@@ -15,13 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see  http://www.gnu.org/licenses
 
-@import '../../../styles';
+@import './../../../styles';
 @import 'variables';
 
-.oxd-classic-table {
-  border-collapse: collapse;
-  color: $oxd-table-font-color;
-  font-family: $oxd-table-font-family;
-  font-size: $oxd-table-font-size;
-  width: 100%;
+.oxd-header-wrapper{
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
 }

@@ -19,11 +19,16 @@
  
 import BasicTableStory from './BasicTable.story.vue';
 import ClassicTableStory from './ClassicTable.story.vue';
+import ClassicTableCellRendererStory from './ClassicTableCellRenderer.story.vue';
+import ClassicTableDefaultCellRendererStory from './ClassicTableDefaultCellRenderer.story.vue';
+import ClassicTableWithSortingStory from './ClassicTableWithSorting.story.vue';
 
 export default {
   title: 'Example/Table',
 };
 
 export const Basic = () => BasicTableStory;
-
 export const ClassicTable = () => ClassicTableStory;
+export const ClassicTableCellRenderer = () => ClassicTableCellRendererStory;
+export const ClassicTableDefaultCellRenderer = () => ClassicTableDefaultCellRendererStory;
+export const ClassicTableWithSorting = () => ClassicTableWithSortingStory;

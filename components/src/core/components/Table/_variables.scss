@@ -29,6 +29,14 @@ $oxd-table-row-border-color: $oxd-interface-gray-lighten-2-color !default;
 $oxd-table-body-strip-color: $oxd-background-white-shadow-color !default;
 
 $oxd-table-tr-bg-color: $oxd-interface-gray-color;
+$oxd-table-sort-dropdown-top-margin: 1.5rem !default;
+$oxd-table-sort-dropdown-height: 4rem !default;
+$oxd-table-sort-dropdown-width: 6rem !default;
+$oxd-table-sort-dropdown-font-size: 12px !default;
+$oxd-table-sort-dropdown-font-weight: 600 !default;
+$oxd-table-sort-dropdown-font-color: $oxd-interface-gray-darken-1-color !default;
 $oxd-table-tr-padding: 25px;
 
 $oxd-table-cell-padding: 0.65rem;
+
+$oxd-table-cell-action-gap: 5px !default;

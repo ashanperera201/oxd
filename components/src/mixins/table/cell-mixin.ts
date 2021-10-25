@@ -17,7 +17,21 @@
  * along with this program.  If not, see  http://www.gnu.org/licenses
  */
 
-import mitt from 'mitt';
+import { defineComponent } from 'vue';
 
-const emitter = mitt();
-export default emitter;
+export const cellMixin = defineComponent({
+    inject: ['tableProps', 'screenState'],
+
+    props: {
+        header: {
+            type: Object,
+            default: () => ({}),
+        },
+        rowItem: {
+            type: Object,
+            default: () => ({}),
+        },
+    },
+});
+
+export default cellMixin;
