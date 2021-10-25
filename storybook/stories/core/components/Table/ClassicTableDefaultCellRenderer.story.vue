@@ -51,20 +51,63 @@ export default {
           title: "Column 2",
           width: "20%",
         },
+        {
+          name: "col3",
+          title: "Action",
+          width: "40%",
+          defaultCellConfig: {
+            delete: {
+              componentName: "oxd-icon-button",
+              visibility: true,
+              onClick(item, e) {
+                console.log(item);
+                console.log(e);
+              },
+              props: {
+                name: "trash",
+              },
+            },
+            edit: {
+              componentName: "oxd-icon-button",
+              visibility: true,
+              onClick(item, e) {
+                console.log(item);
+                console.log(e);
+              },
+              props: {
+                name: "pencil-fill",
+              },
+            },
+            download: {
+              componentName: "oxd-icon-button",
+              visibility: true,
+              onClick(item, e) {
+                console.log(item);
+                console.log(e);
+              },
+              props: {
+                name: "cloud-arrow-down",
+              },
+            },
+            cellDisabledPropertyKey: "disabled",
+          },
+        },
       ],
       items: [
         {
-          col1: "Cata 1",
+          col1: "Data 1",
           col2: "Data 2",
         },
         {
           col1: "Data 2",
           col2: "Data 2",
+          disabled: true,
         },
         {
-          col1: "Eata 3",
+          col1: "Data 3",
           col2:
             "Lorem Ipsum is simply dummy text of the printing and typesettin ",
+          disabled: true,
         },
       ],
       checkedItems: [2, 0],

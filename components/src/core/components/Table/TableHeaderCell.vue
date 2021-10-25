@@ -21,14 +21,56 @@
 
 <template>
   <th>
-    <slot></slot>
+    <div class="oxd-header-wrapper">
+      <slot></slot>
+      <div v-if="header && header.sortable">
+        <oxd-card-th-sort :order="sortingOrder" @order="onOrder"></oxd-card-th-sort>
+      </div>
+    </div>
   </th>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import { defineComponent } from "vue";
+import { Order } from "./TableTypes/card-type";
+import TableHeaderSortDropdown from "./TableHeaderSortDropdown.vue";
 
 export default defineComponent({
-  name: 'oxd-th',
+  name: "oxd-th",
+
+  props: {
+    order: {
+      type: String,
+      required: false,
+      default: "DEFAULT",
+    },
+    header: Object,
+  },
+  data() {
+    return {
+      sortingOrder: "",
+    };
+  },
+  mounted() {
+    this.sortingOrder = this.order;
+  },
+  emits: ["order"],
+
+  components: {
+    "oxd-card-th-sort": TableHeaderSortDropdown,
+  },
+
+  methods: {
+    onOrder(order: Order) {
+      this.sortingOrder = order;
+      let sortingObject = {
+        order: order,
+        header: this.header,
+      };
+      this.$emit(`order`, sortingObject);
+    },
+  },
 });
 </script>
+
+<style src="./table-header-cell.scss" lang="scss" scoped></style>

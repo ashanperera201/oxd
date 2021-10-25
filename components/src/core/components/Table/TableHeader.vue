@@ -20,16 +20,16 @@
 -->
 
 <template>
-  <thead class="oxd-table-header">
+  <thead class="oxd-table-header" role="rowgroup">
     <slot></slot>
   </thead>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'oxd-thead',
+  name: "oxd-thead",
 });
 </script>
 
