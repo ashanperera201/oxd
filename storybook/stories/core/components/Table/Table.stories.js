@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see  http://www.gnu.org/licenses
  */
- 
+
 import BasicTableStory from './BasicTable.story.vue';
 import ClassicTableStory from './ClassicTable.story.vue';
 import ClassicTableCellRendererStory from './ClassicTableCellRenderer.story.vue';
 import ClassicTableDefaultCellRendererStory from './ClassicTableDefaultCellRenderer.story.vue';
 import ClassicTableWithSortingStory from './ClassicTableWithSorting.story.vue';
+import ClassicTableWithPaginationStory from './ClassicTableWithPagination.story.vue';
+import ClassicTableSearchStory from './ClassicTableSearch.story.vue';
 
 export default {
   title: 'Example/Table',
@@ -32,3 +34,5 @@ export const ClassicTable = () => ClassicTableStory;
 export const ClassicTableCellRenderer = () => ClassicTableCellRendererStory;
 export const ClassicTableDefaultCellRenderer = () => ClassicTableDefaultCellRendererStory;
 export const ClassicTableWithSorting = () => ClassicTableWithSortingStory;
+export const ClassicTableWithPagination = () => ClassicTableWithPaginationStory;
+export const ClassicTableSearch = () => ClassicTableSearchStory;

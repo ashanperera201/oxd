@@ -49,3 +49,9 @@ export type DropdownOption = {
     label: string;
     context: string;
 };
+
+export const DefaultActions = {
+    edit: 'edit',
+    delete: 'delete',
+    download: 'download'
+}

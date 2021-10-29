@@ -20,64 +20,83 @@
 -->
 
 <template>
-  <oxd-table>
-    <colgroup>
-      <col v-if="selectable" :style="{ width: selector.width }" />
-      <col v-for="header in headers" :style="{ width: header.width }" :key="header" />
-    </colgroup>
-    <oxd-thead>
-      <oxd-tr>
-        <oxd-th v-if="selectable" class="oxd-padding-cell oxd-table-th">
-          <input type="checkbox" v-model="selectedAll" @change="onChangeSelectAll" />
-        </oxd-th>
+  <div>
+    <oxd-table-search
+      v-if="enableSearch"
+      @common-filter-change="tableSearchChange"
+    ></oxd-table-search>
+    <oxd-table>
+      <colgroup>
+        <col v-if="selectable" :style="{ width: selector.width }" />
+        <col v-for="header in headers" :style="{ width: header.width }" :key="header" />
+      </colgroup>
+      <oxd-thead>
+        <oxd-tr>
+          <oxd-th v-if="selectable" class="oxd-padding-cell oxd-table-th">
+            <input type="checkbox" v-model="selectedAll" @change="onChangeSelectAll" />
+          </oxd-th>
 
-        <oxd-th
-          class="oxd-padding-cell oxd-table-th"
-          v-for="(header, index) in headers"
-          :key="index"
-          :header="header"
-          @order="onSortingChange"
-        >
-          {{ header.title }}
-        </oxd-th>
-      </oxd-tr>
-    </oxd-thead>
-
-    <oxd-tbody :with-strip="withStrip">
-      <oxd-tr
-        v-for="(item, index) in dataSet"
-        :key="item"
-        :clickable="clickable"
-        @click="onClick(item)($event)"
-      >
-        <oxd-td v-if="selectable" class="oxd-padding-cell">
-          <input
-            type="checkbox"
-            :value="index"
-            v-model="checkedItems"
-            @click="onClickCheckbox(item, $event)"
-          />
-        </oxd-td>
-        <oxd-td class="oxd-padding-cell" v-for="(header, index) in headers" :key="index">
-          <!-- Default cell renderer -->
-          <oxd-table-action
-            v-if="header.defaultCellConfig"
+          <oxd-th
+            class="oxd-padding-cell oxd-table-th"
+            v-for="(header, index) in headers"
+            :key="index"
             :header="header"
-            :item="item"
-          ></oxd-table-action>
-          <!-- Generic cell renderer  -->
-          <span v-if="header.cellRenderer">
-            <component :is="header.cellRenderer" :data="item"></component>
-          </span>
-          <span v-else>
-            {{ item[header.name] }}
-          </span>
-        </oxd-td>
-      </oxd-tr>
-    </oxd-tbody>
+            @order="onSortingChange"
+          >
+            {{ header.title }}
+          </oxd-th>
+        </oxd-tr>
+      </oxd-thead>
 
-    <oxd-tfoot> </oxd-tfoot>
-  </oxd-table>
+      <oxd-tbody :with-strip="withStrip">
+        <oxd-tr
+          v-for="(item, index) in dataSet"
+          :key="item"
+          :clickable="clickable"
+          @click="onClick(item)($event)"
+        >
+          <oxd-td v-if="selectable" class="oxd-padding-cell">
+            <input
+              type="checkbox"
+              :value="index"
+              v-model="checkedItems"
+              @click="onClickCheckbox(item, $event)"
+            />
+          </oxd-td>
+          <oxd-td
+            class="oxd-padding-cell"
+            v-for="(header, index) in headers"
+            :key="index"
+          >
+            <!-- Default cell renderer -->
+            <oxd-table-action-wrapper
+              :header="header"
+              :item="item"
+            ></oxd-table-action-wrapper>
+
+            <!-- Generic cell renderer  -->
+            <span v-if="header.cellRenderer">
+              <component :is="header.cellRenderer" :data="item"></component>
+            </span>
+            <span v-else>
+              {{ item[header.name] }}
+            </span>
+          </oxd-td>
+        </oxd-tr>
+      </oxd-tbody>
+      <oxd-tfoot> </oxd-tfoot>
+    </oxd-table>
+    <div v-if="paginationConfig">
+      <div>Current page: {{ current }}</div>
+      <oxd-pagination
+        v-if="paginationConfig.showPagination"
+        :length="args.length"
+        :max="args.max"
+        :showPageNumbers="paginationConfig.showPageNumbers"
+        :options="paginationConfig.pageOptions"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -90,13 +109,20 @@ import TableFooter from "@orangehrm/oxd/core/components/Table/TableFooter.vue";
 import TableRow from "@orangehrm/oxd/core/components/Table/TableRow.vue";
 import TableHeaderCell from "@orangehrm/oxd/core/components/Table/TableHeaderCell.vue";
 import TableDataCell from "@orangehrm/oxd/core/components/Table/TableDataCell.vue";
-import TableDefaultAction from "@orangehrm/oxd/core/components/Table/TableDefaultAction.vue";
+import DefaultActionWrapper from "@orangehrm/oxd/core/components/Table/TableActions/DefaultActionWrapper.vue";
+import TableSearch from "./TableSearch.vue";
+
+import Pagination from "@orangehrm/oxd/core/components/Pagination/Pagination.vue";
 
 export default defineComponent({
   name: "oxd-clasic-table",
 
   data() {
     return {
+      args: {
+        length: 3,
+        max: 6,
+      },
       checkedItems: this.selected,
       selectedAll: (this.selected.length === this.items.length) as boolean,
       dataSet: [],
@@ -111,6 +137,8 @@ export default defineComponent({
   },
 
   props: {
+    enableSearch: Boolean,
+    paginationConfig: Object,
     selector: {
       type: Object,
       default() {
@@ -149,7 +177,13 @@ export default defineComponent({
     },
   },
 
-  emits: ["click", "clickCheckbox", "update:selected", "update:selectAll"],
+  emits: [
+    "click",
+    "clickCheckbox",
+    "update:selected",
+    "update:selectAll",
+    "table-search-params",
+  ],
 
   components: {
     "oxd-table": Table,
@@ -159,7 +193,9 @@ export default defineComponent({
     "oxd-tr": TableRow,
     "oxd-th": TableHeaderCell,
     "oxd-td": TableDataCell,
-    "oxd-table-action": TableDefaultAction,
+    "oxd-table-action-wrapper": DefaultActionWrapper,
+    "oxd-table-search": TableSearch,
+    "oxd-pagination": Pagination,
   },
 
   mounted() {
@@ -191,6 +227,9 @@ export default defineComponent({
         sortedItems = sort(this.items).desc((u: any) => u[header.name]);
         this.dataSet = sortedItems;
       }
+    },
+    tableSearchChange(event: any) {
+      this.$emit("table-search-params", event);
     },
   },
 });

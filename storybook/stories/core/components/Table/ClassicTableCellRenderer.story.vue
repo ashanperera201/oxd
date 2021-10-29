@@ -56,8 +56,7 @@ export default {
         { col1: "Data 2", col2: "Data 2" },
         {
           col1: "Data 3",
-          col2:
-            "Lorem Ipsum is simply dummy text of the printing and typesettin ",
+          col2: "Lorem Ipsum is simply dummy text of the printing and typesettin ",
         },
       ],
       checkedItems: [2, 0],
@@ -65,7 +64,7 @@ export default {
   },
   components: {
     "oxd-clasic-table": ClassicTable,
-    "class-table": ClassicCellRenderer,
+    // "class-table": ClassicCellRenderer,
   },
 
   methods: {

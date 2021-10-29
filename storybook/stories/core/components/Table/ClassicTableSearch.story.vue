@@ -21,6 +21,7 @@
 
 <template>
   <oxd-clasic-table
+    :enableSearch="true"
     :selector="selector"
     :headers="headers"
     :items="items"

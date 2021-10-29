@@ -23,9 +23,7 @@
   <div class="oxd-table-filter">
     <div class="oxd-table-filter-header">
       <div class="oxd-table-filter-header-title">
-        <oxd-text class="oxd-table-filter-title" tag="h5">{{
-          filterTitle
-        }}</oxd-text>
+        <oxd-text class="oxd-table-filter-title" tag="h5">{{ filterTitle }}</oxd-text>
       </div>
       <div class="oxd-table-filter-header-options">
         <div class="--toggle">
@@ -50,22 +48,19 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, watchEffect} from 'vue';
-import Text from '@orangehrm/oxd/core/components/Text/Text.vue';
-import Divider from '@orangehrm/oxd/core/components/Divider/Divider.vue';
-import IconButton from '@orangehrm/oxd/core/components/Button/Icon.vue';
-import useResponsive, {
-  DEVICE_LG,
-  DEVICE_XL,
-} from '../../../composables/useResponsive';
+import { defineComponent, ref, watchEffect } from "vue";
+import Text from "@orangehrm/oxd/core/components/Text/Text.vue";
+import Divider from "@orangehrm/oxd/core/components/Divider/Divider.vue";
+import IconButton from "@orangehrm/oxd/core/components/Button/Icon.vue";
+import useResponsive, { DEVICE_LG, DEVICE_XL } from "../../../composables/useResponsive";
 
 export default defineComponent({
-  name: 'oxd-table-filter',
+  name: "oxd-table-filter",
 
   components: {
-    'oxd-text': Text,
-    'oxd-divider': Divider,
-    'oxd-icon-button': IconButton,
+    "oxd-text": Text,
+    "oxd-divider": Divider,
+    "oxd-icon-button": IconButton,
   },
 
   props: {

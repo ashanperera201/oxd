@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see  http://www.gnu.org/licenses
  */
- 
+
 import Dialog from '@orangehrm/oxd/core/components/Dialog/Dialog';
 import DialogClose from './DialogClose.story.vue';
 import DialogWithoutCloseStory from './DialogWithoutClose.story.vue';
@@ -34,9 +34,9 @@ export default {
 
 const Template = args => ({
   setup() {
-    return {args};
+    return { args };
   },
-  components: {'oxd-dialog': Dialog},
+  components: { 'oxd-dialog': Dialog },
   template: `
   <p><b>Lorem Ipsum</b> is simply dummy text of the printing and typesetting industry.
   Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
@@ -62,7 +62,7 @@ export const Default = Template.bind({});
 Default.args = {
   shadow: true,
   gutters: true,
-  style: {maxWidth: '800px'},
+  style: { maxWidth: '800px' },
 };
 
 export const Close = () => DialogClose;
@@ -79,7 +79,7 @@ export const DialogWithoutClose = args => ({
       },
     };
   },
-  components: {DialogWithoutCloseStory},
+  components: { DialogWithoutCloseStory },
   template: `<DialogWithoutCloseStory v-bind="args" />`,
 });
 DialogWithoutClose.args = {
@@ -89,9 +89,9 @@ DialogWithoutClose.args = {
 export const Persistent = args => ({
   setup() {
     delete args.show;
-    return {args};
+    return { args };
   },
-  components: {DialogPersistentStory},
+  components: { DialogPersistentStory },
   template: `<DialogPersistentStory v-bind="args" />`,
 });
 Persistent.args = {
@@ -100,7 +100,7 @@ Persistent.args = {
 };
 
 export const DeleteConfirmation = () => ({
-  components: {DialogDeleteConfirmationStory},
+  components: { DialogDeleteConfirmationStory },
   template: `<DialogDeleteConfirmationStory />`,
 });
 DeleteConfirmation.args = {};

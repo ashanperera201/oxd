@@ -24,6 +24,7 @@
     :selector="selector"
     :headers="headers"
     :items="items"
+    :paginationConfig="paginationConfig"
     @click="onClick"
     selectable
     v-model:selected="checkedItems"
@@ -32,12 +33,31 @@
 
 <script>
 import ClassicTable from "@orangehrm/oxd/core/components/Table/ClassicTable";
+import Pagination from "@orangehrm/oxd/core/components/Pagination/Pagination";
 
 export default {
   data() {
     return {
       selector: {
         width: "3%",
+      },
+      paginationConfig: {
+        showPagination: true,
+        showPageNumbers: true,
+        pageOptions: [
+          {
+            id: 1,
+            label: "10",
+          },
+          {
+            id: 2,
+            label: "20",
+          },
+          {
+            id: 3,
+            label: "30",
+          },
+        ],
       },
       headers: [
         {
@@ -76,7 +96,6 @@ export default {
         {
           col1: "Data 3",
           col2: "Lorem Ipsum is simply dummy text of the printing and typesettin ",
-          disabled: true,
         },
       ],
       checkedItems: [2, 0],
@@ -85,11 +104,15 @@ export default {
 
   components: {
     "oxd-clasic-table": ClassicTable,
+    "oxd-pagination": Pagination,
   },
 
   methods: {
     onClick(e) {
       console.log(e);
+    },
+    onChange(event) {
+      debugger;
     },
   },
 };
