@@ -45,6 +45,7 @@ export default {
           name: "col1",
           title: "Column 1",
           width: "40%",
+          sortable: true,
         },
         {
           name: "col2",
@@ -63,8 +64,7 @@ export default {
         },
         {
           col1: "Eata 3",
-          col2:
-            "Lorem Ipsum is simply dummy text of the printing and typesettin ",
+          col2: "Lorem Ipsum is simply dummy text of the printing and typesettin ",
         },
       ],
       checkedItems: [2, 0],

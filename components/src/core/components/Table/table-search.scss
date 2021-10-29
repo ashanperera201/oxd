@@ -1,0 +1,26 @@
+.search {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    &--tools {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > button {
+            margin-left: 0.65rem;
+        }
+    }
+}
+
+.img-icon-size {
+    border-radius: 50%;
+    height: auto;
+    cursor: pointer;
+    width: 2.5rem;
+    max-height: 2.5rem;
+}

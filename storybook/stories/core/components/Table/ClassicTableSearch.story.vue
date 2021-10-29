@@ -21,6 +21,7 @@
 
 <template>
   <oxd-clasic-table
+    :enableSearch="true"
     :selector="selector"
     :headers="headers"
     :items="items"
@@ -32,7 +33,6 @@
 
 <script>
 import ClassicTable from "@orangehrm/oxd/core/components/Table/ClassicTable";
-import ClassicCellRenderer from "./ClassicCellRenderer.story.vue";
 
 export default {
   data() {
@@ -51,10 +51,23 @@ export default {
           title: "Column 2",
           width: "20%",
         },
+        {
+          name: "col3",
+          title: "Action",
+          width: "40%",
+          defaultCellRenderers: {
+            actions: ["edit", "delete", "download"],
+            actionClickHandler(actionKey, dataItem, event) {
+              console.log(actionKey);
+              console.log(dataItem);
+              console.log(event);
+            },
+          },
+        },
       ],
       items: [
         {
-          col1: "Cata 1",
+          col1: "Data 1",
           col2: "Data 2",
         },
         {
@@ -62,9 +75,9 @@ export default {
           col2: "Data 2",
         },
         {
-          col1: "Eata 3",
-          col2:
-            "Lorem Ipsum is simply dummy text of the printing and typesettin ",
+          col1: "Data 3",
+          col2: "Lorem Ipsum is simply dummy text of the printing and typesettin ",
+          disabled: true,
         },
       ],
       checkedItems: [2, 0],
@@ -73,7 +86,6 @@ export default {
 
   components: {
     "oxd-clasic-table": ClassicTable,
-    "class-table": ClassicCellRenderer,
   },
 
   methods: {

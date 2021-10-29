@@ -1,11 +1,28 @@
+<!--
+/*
+ * This file is part of OrangeHRM Inc
+ *
+ * Copyright (C) 2020 onwards OrangeHRM Inc
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see  http://www.gnu.org/licenses
+ */
+-->
+
 <template>
   <nav role="navigation" aria-label="Pagination Navigation">
     <ul class="oxd-pagination__ul">
-      <oxd-pagination-page-item
-        previous
-        @click="onClickPrevious"
-        v-if="showPrevious"
-      />
+      <oxd-pagination-page-item previous @click="onClickPrevious" v-if="showPrevious" />
       <oxd-pagination-page-item
         v-for="page in pageItems"
         :key="page"
@@ -14,33 +31,43 @@
         @click="onClickPage(page, $event)"
       />
       <oxd-pagination-page-item next @click="onClickNext" v-if="showNext" />
+      <oxd-select-input
+        class="oxd-Pagination"
+        v-if="showPageNumbers && options"
+        v-model="pageNumber"
+        :options="options"
+      ></oxd-select-input>
     </ul>
   </nav>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import PageItem from '@orangehrm/oxd/core/components/Pagination/PageItem.vue';
-import {pageableMixin} from '../../../mixins/pageable';
+import { defineComponent } from "vue";
+import PageItem from "@orangehrm/oxd/core/components/Pagination/PageItem.vue";
+import SelectInput from "@orangehrm/oxd/core/components/Input/Select/SelectInput.vue";
+import { pageableMixin } from "../../../mixins/pageable";
 
 export default defineComponent({
-  name: 'oxd-pagination',
+  name: "oxd-pagination",
 
   components: {
-    'oxd-pagination-page-item': PageItem,
+    "oxd-pagination-page-item": PageItem,
+    "oxd-select-input": SelectInput,
   },
 
   mixins: [pageableMixin],
 
-  emits: ['previous', 'next', 'update:current', 'clickPage'],
+  emits: ["previous", "next", "update:current", "clickPage", "on-page-change"],
 
   data() {
     return {
       pagePointer: this.current,
+      pageNumber: {},
     };
   },
 
   props: {
+    options: Array,
     length: {
       type: Number,
       required: true,
@@ -56,6 +83,10 @@ export default defineComponent({
       default: 1,
       validator: (val: number) => Number.isInteger(val),
     },
+    showPageNumbers: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   computed: {
@@ -63,14 +94,14 @@ export default defineComponent({
       get(): number {
         if (this.current < 1 || this.current > this.length) {
           // eslint-disable-next-line no-console
-          console.error('Invalid `current` prop');
+          console.error("Invalid `current` prop");
         }
         return this.pagePointer;
       },
       set(newValue: number) {
         if (newValue < 1 || newValue > this.length) {
           // eslint-disable-next-line no-console
-          console.error('Invalid assignment to `currentPage`');
+          console.error("Invalid assignment to `currentPage`");
         } else {
           this.pagePointer = newValue;
         }
@@ -85,7 +116,7 @@ export default defineComponent({
     pageItems(): Array<number> {
       if (this.currentPage < 1 || this.currentPage > this.length) {
         // eslint-disable-next-line no-console
-        console.error('Invalid `current` prop');
+        console.error("Invalid `current` prop");
       }
 
       const maxLength = this.max;
@@ -119,28 +150,32 @@ export default defineComponent({
   methods: {
     onClickPrevious(e: Event) {
       this.currentPage--;
-      this.$emit('update:current', this.currentPage);
-      this.$emit('previous', e);
+      this.$emit("update:current", this.currentPage);
+      this.$emit("previous", e);
     },
     onClickPage(page: number, e: Event) {
       this.currentPage = page;
-      this.$emit('update:current', this.currentPage);
-      this.$emit('clickPage', {
+      this.$emit("update:current", this.currentPage);
+      this.$emit("clickPage", {
         page,
         native: e,
       });
     },
     onClickNext(e: Event) {
       this.currentPage++;
-      this.$emit('update:current', this.currentPage);
-      this.$emit('next', e);
+      this.$emit("update:current", this.currentPage);
+      this.$emit("next", e);
+    },
+    onSelectionChange() {
+      debugger;
+      this.$emit("on-page-change", this.pageNumber);
     },
     range(from: number, to: number): Array<number> {
       const range = [];
       from = from > 0 ? from : 1;
       if (from > to) {
         // eslint-disable-next-line no-console
-        console.error('`from` is bigger than `to`');
+        console.error("`from` is bigger than `to`");
       }
       for (let i = from; i <= to; i++) {
         range.push(i);

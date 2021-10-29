@@ -1,4 +1,3 @@
-<!--
 /*
  * This file is part of OrangeHRM Inc
  *
@@ -17,36 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see  http://www.gnu.org/licenses
  */
--->
 
-<template>
-  <tbody :class="classes">
-    <slot></slot>
-  </tbody>
-</template>
+import DynamicFiltrationModalStory from './DynamicFiltrationModal.story.vue';
 
-<script lang="ts">
-import {defineComponent} from 'vue';
+export default {
+    title: 'Example/DynamicFiltration',
+};
 
-export default defineComponent({
-  name: 'oxd-tbody',
-
-  props: {
-    withStrip: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  computed: {
-    classes(): object {
-      return {
-        'oxd-table-body': true,
-        'oxd-table-body--with-strip': this.withStrip,
-      };
-    },
-  },
-});
-</script>
-
-<style src="./table-body.scss" lang="scss" scoped></style>
+export const DynamicFiltrationModal = () => DynamicFiltrationModalStory;

@@ -15,18 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see  http://www.gnu.org/licenses
 
-@import '../../../styles';
+@import './../../../styles';
 @import 'variables';
 
-.oxd-padding-cell {
-  padding: $oxd-table-cell-padding;
-}
-
-.oxd-table-th {
-  text-align: left;
-}
-
-.oxd-table-tr {
-  padding: $oxd-table-tr-padding;
-  background-color: $oxd-table-tr-bg-color;
+.oxd-header-wrapper{
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
 }
