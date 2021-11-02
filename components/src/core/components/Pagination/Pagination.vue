@@ -20,25 +20,29 @@
 -->
 
 <template>
-  <nav role="navigation" aria-label="Pagination Navigation">
-    <ul class="oxd-pagination__ul">
-      <oxd-pagination-page-item previous @click="onClickPrevious" v-if="showPrevious" />
-      <oxd-pagination-page-item
-        v-for="page in pageItems"
-        :key="page"
-        :page="page"
-        :selected="page === currentPage"
-        @click="onClickPage(page, $event)"
-      />
-      <oxd-pagination-page-item next @click="onClickNext" v-if="showNext" />
+  <div class="pagination-wrapper">
+    <nav role="navigation" aria-label="Pagination Navigation">
+      <ul class="oxd-pagination__ul">
+        <oxd-pagination-page-item previous @click="onClickPrevious" v-if="showPrevious" />
+        <oxd-pagination-page-item
+          v-for="page in pageItems"
+          :key="page"
+          :page="page"
+          :selected="page === currentPage"
+          @click="onClickPage(page, $event)"
+        />
+        <oxd-pagination-page-item next @click="onClickNext" v-if="showNext" />
+      </ul>
+    </nav>
+    <div class="pagination-wrapper--dropdown">
       <oxd-select-input
-        class="oxd-Pagination"
         v-if="showPageNumbers && options"
         v-model="pageNumber"
         :options="options"
+        :isRounded="true"
       ></oxd-select-input>
-    </ul>
-  </nav>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

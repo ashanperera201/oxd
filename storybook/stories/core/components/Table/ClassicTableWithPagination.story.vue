@@ -33,7 +33,6 @@
 
 <script>
 import ClassicTable from "@orangehrm/oxd/core/components/Table/ClassicTable";
-import Pagination from "@orangehrm/oxd/core/components/Pagination/Pagination";
 
 export default {
   data() {
@@ -104,7 +103,6 @@ export default {
 
   components: {
     "oxd-clasic-table": ClassicTable,
-    "oxd-pagination": Pagination,
   },
 
   methods: {

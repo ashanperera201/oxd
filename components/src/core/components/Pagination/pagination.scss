@@ -18,6 +18,19 @@
 @import "../../../styles";
 @import "variables";
 
+.pagination-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 1rem;
+
+  &--dropdown {
+    width: 12%;
+  }
+}
+
 .oxd-pagination__ul {
   list-style-type: none;
   display: inline-flex;

@@ -4,6 +4,7 @@
       v-bind="$attrs"
       :value="inputValue"
       :disabled="disabled"
+      :isRounded="isRounded"
       @blur="onBlur"
       @focus="onOpenDropdown"
       @keyup.esc="onCloseDropdown"
@@ -42,32 +43,32 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import eventsMixin from './events-mixin';
-import navigationMixin from './navigation-mixin';
-import {TOP, BOTTOM, Option, Position, DROPDOWN_POSITIONS} from '../types';
-import SelectText from '@orangehrm/oxd/core/components/Input/Select/SelectText.vue';
-import SelectDropdown from '@orangehrm/oxd/core/components/Input/Select/SelectDropdown.vue';
-import SelectOption from '@orangehrm/oxd/core/components/Input/Select/SelectOption.vue';
+import { defineComponent } from "vue";
+import eventsMixin from "./events-mixin";
+import navigationMixin from "./navigation-mixin";
+import { TOP, BOTTOM, Option, Position, DROPDOWN_POSITIONS } from "../types";
+import SelectText from "@orangehrm/oxd/core/components/Input/Select/SelectText.vue";
+import SelectDropdown from "@orangehrm/oxd/core/components/Input/Select/SelectDropdown.vue";
+import SelectOption from "@orangehrm/oxd/core/components/Input/Select/SelectOption.vue";
 
 export default defineComponent({
-  name: 'oxd-select-input',
+  name: "oxd-select-input",
   inheritAttrs: false,
 
   components: {
-    'oxd-select-text': SelectText,
-    'oxd-select-dropdown': SelectDropdown,
-    'oxd-select-option': SelectOption,
+    "oxd-select-text": SelectText,
+    "oxd-select-dropdown": SelectDropdown,
+    "oxd-select-option": SelectOption,
   },
 
   mixins: [navigationMixin, eventsMixin],
 
   emits: [
-    'update:modelValue',
-    'dropdown:opened',
-    'dropdown:closed',
-    'dropdown:blur',
-    'dropdown:clear',
+    "update:modelValue",
+    "dropdown:opened",
+    "dropdown:closed",
+    "dropdown:blur",
+    "dropdown:clear",
   ],
 
   props: {
@@ -84,14 +85,18 @@ export default defineComponent({
     },
     placeholder: {
       type: String,
-      default: '-- Select --',
+      default: "-- Select --",
     },
     dropdownPosition: {
       type: String,
       default: BOTTOM,
-      validator: function(value: Position) {
+      validator: function (value: Position) {
         return DROPDOWN_POSITIONS.indexOf(value) !== -1;
       },
+    },
+    isRounded: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -111,21 +116,21 @@ export default defineComponent({
         if (this.modelValue?.id === option.id) {
           _selected = true;
         }
-        return {...option, _selected};
+        return { ...option, _selected };
       });
     },
     dropdownClasses(): object {
       return {
-        '--positon-bottom': this.dropdownPosition === BOTTOM,
-        '--positon-top': this.dropdownPosition === TOP,
+        "--positon-bottom": this.dropdownPosition === BOTTOM,
+        "--positon-top": this.dropdownPosition === TOP,
       };
     },
     optionClasses(): object[] {
       return this.computedOptions.map((option: Option, index: number) => {
         return {
-          '--disabled': option._disabled,
-          '--selected': option._selected,
-          '--focused': index === this.pointer,
+          "--disabled": option._disabled,
+          "--selected": option._selected,
+          "--focused": index === this.pointer,
           [`--indent-${option._indent}`]: option._indent !== undefined,
         };
       });

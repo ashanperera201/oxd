@@ -109,7 +109,6 @@ import TableHeaderCell from "@orangehrm/oxd/core/components/Table/TableHeaderCel
 import TableDataCell from "@orangehrm/oxd/core/components/Table/TableDataCell.vue";
 import DefaultActionWrapper from "@orangehrm/oxd/core/components/Table/TableActions/DefaultActionWrapper.vue";
 import TableSearch from "./TableSearch.vue";
-
 import Pagination from "@orangehrm/oxd/core/components/Pagination/Pagination.vue";
 
 export default defineComponent({

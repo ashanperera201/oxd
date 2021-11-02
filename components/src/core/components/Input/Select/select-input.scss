@@ -1,5 +1,5 @@
-@import '../../../../styles';
-@import '../variables';
+@import "../../../../styles";
+@import "../variables";
 
 .oxd-select-wrapper {
   @include oxd-input-control-size;
@@ -22,6 +22,10 @@
   border-radius: $oxd-input-control-border-radius;
   min-height: $oxd-input-min-height;
   cursor: pointer;
+
+  &--border-rounded {
+    border-radius: $oxd-dropdown-rounded-border-radius;
+  }
 
   &--active {
     border: $oxd-input-border--active;
@@ -85,9 +89,18 @@
     align-items: center;
     justify-content: center;
     width: $oxd-dropdown-arrow-width;
-    height: $oxd-dropdown-arrow-height;
-    border-radius: $oxd-dropdown-arrow-border-radius;
     background-color: $oxd-dropdown-arrow-background-color;
+
+    &--btn-rounded {
+      border-radius: $oxd-dropdown-rounded-border-radius;
+      height: $oxd-dropdown-rounded-height;
+    }
+
+    &--btn-default {
+      height: $oxd-dropdown-arrow-height;
+      border-radius: $oxd-dropdown-arrow-border-radius;
+    }
+
     &.--disabled {
       cursor: unset;
       background-color: $oxd-dropdown-arrow-background-color--disabled;

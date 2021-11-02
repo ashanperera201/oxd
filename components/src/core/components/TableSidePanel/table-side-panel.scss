@@ -1,0 +1,50 @@
+@import "../../../styles/";
+@import "./variables";
+
+// .oxd.left-panel .tab {
+//     text-align: left;
+//     color: #64728c;
+//     font-size: 12px;
+//     font-weight: 600;
+//     border-radius: 2.5rem;
+//     padding: 0.5rem 8px;
+//     width: 100%;
+//     margin-bottom: 5px;
+// }
+
+// .oxd.left-panel .tab hover {
+//     background-color: #f1f2f5;
+// }
+
+// .oxd.left-panel .tab .active {
+//     background-color: #f1f2f5;
+//     font-weight: 700;
+// }
+
+.side-panel {
+    // TODO : FOR THE MOMENT VALUES WILL BE HARD CODED.
+    width: 65%;
+    height: 20rem;
+    text-align: left;
+    color: #64728c;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 2.5rem;
+    padding: 0.5rem 8px;
+    margin-bottom: 5px;
+
+    &:hover {
+        background-color: #f1f2f5;
+    }
+
+    &__header {
+        text-align: center;
+        width: 100%;
+        border-bottom: 1px solid #ebe5e5;
+        padding-bottom: 6px;
+
+        > button {
+            width: 100%;
+        }
+    }
+}

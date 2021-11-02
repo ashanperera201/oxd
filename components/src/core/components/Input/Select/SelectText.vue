@@ -14,7 +14,7 @@
       <slot name="afterInput"></slot>
       <oxd-icon
         v-if="!disabled"
-        :class="dropdownIconClasses"
+        :class="[dropdownIconClasses, dropDoenRoundedClasses]"
         :name="dropdownIcon"
         @click="onToggle"
       />
@@ -23,15 +23,15 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
-import Icon from '@orangehrm/oxd/core/components/Icon/Icon.vue';
+import { defineComponent } from "vue";
+import Icon from "@orangehrm/oxd/core/components/Icon/Icon.vue";
 
 export default defineComponent({
-  name: 'oxd-select-text',
+  name: "oxd-select-text",
   inheritAttrs: false,
 
   components: {
-    'oxd-icon': Icon,
+    "oxd-icon": Icon,
   },
 
   props: {
@@ -53,6 +53,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    isRounded: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -64,22 +68,28 @@ export default defineComponent({
   computed: {
     classes(): object {
       return {
-        'oxd-select-text': true,
-        'oxd-select-text--active': !this.focused,
-        'oxd-select-text--focus': this.focused,
-        'oxd-select-text--error': this.hasError,
-        'oxd-select-text--disabled': this.disabled,
-        'oxd-select-text--readonly': this.readonly,
+        "oxd-select-text": !this.isRounded,
+        "oxd-select-text oxd-select-text--border-rounded": this.isRounded,
+        "oxd-select-text--active": !this.focused,
+        "oxd-select-text--focus": this.focused,
+        "oxd-select-text--error": this.hasError,
+        "oxd-select-text--disabled": this.disabled,
+        "oxd-select-text--readonly": this.readonly,
       };
     },
     dropdownIcon(): string {
-      return this.focused ? 'caret-up-fill' : 'caret-down-fill';
+      return this.focused ? "caret-up-fill" : "caret-down-fill";
+    },
+    dropDoenRoundedClasses(): string {
+      return this.isRounded
+        ? "oxd-select-text--arrow--btn-rounded"
+        : "oxd-select-text--arrow--btn-default";
     },
     dropdownIconClasses(): object {
       return {
-        'oxd-select-text--arrow': true,
-        '--disabled': this.disabled,
-        '--readonly': this.readonly,
+        "oxd-select-text--arrow": true,
+        "--disabled": this.disabled,
+        "--readonly": this.readonly,
       };
     },
     tabIndex(): number {

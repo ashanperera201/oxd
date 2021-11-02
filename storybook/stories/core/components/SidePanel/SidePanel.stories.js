@@ -7,15 +7,15 @@ export default {
 
 const Template = args => ({
   setup() {
-    return {args};
+    return { args };
   },
-  components: {'oxd-side-panel': SidePanel},
+  components: { 'oxd-side-panel': SidePanel },
   template: `<oxd-side-panel v-bind="args"/>`,
 });
 
 const argTypes = {
-  toggle: {control: {type: 'boolean'}},
-  menuItems: {control: {type: 'object'}},
+  toggle: { control: { type: 'boolean' } },
+  menuItems: { control: { type: 'object' } },
 };
 
 export const Default = Template.bind({});

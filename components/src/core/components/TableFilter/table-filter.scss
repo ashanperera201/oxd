@@ -1,5 +1,4 @@
-@import '../../../styles';
-@import 'variables';
+@import "../../../styles";
 
 .oxd-table-filter {
   background-color: $oxd-white-color;
@@ -17,7 +16,7 @@
     justify-content: space-between;
     &-options {
       display: flex;
-      @include oxd-respond-to('md') {
+      @include oxd-respond-to("md") {
         padding: 0;
       }
       & .--toggle,

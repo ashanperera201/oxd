@@ -3,20 +3,20 @@ import {
   BOTTOM,
   DROPDOWN_POSITIONS,
 } from '@orangehrm/oxd/core/components/Input/types';
-import {h, ref} from 'vue';
+import { h, ref } from 'vue';
 
 export default {
   title: 'Example/SelectInput',
   component: SelectInput,
   argTypes: {
-    style: {control: {type: 'object'}},
-    hasError: {control: {type: 'boolean'}},
+    style: { control: { type: 'object' } },
+    hasError: { control: { type: 'boolean' } },
     dropdownPosition: {
       options: DROPDOWN_POSITIONS,
       defaultValue: BOTTOM,
     },
     options: {
-      control: {type: 'array'},
+      control: { type: 'array' },
       defaultValue: [],
     },
   },
@@ -68,7 +68,7 @@ const options = [
 const Template = args => ({
   setup() {
     const selected = ref(null);
-    return {args, selected};
+    return { args, selected };
   },
   render() {
     return h(SelectInput, {
@@ -106,14 +106,14 @@ Readonly.args = {
 export const LongLabels = Template.bind({});
 LongLabels.args = {
   options: [
-    {id: 1, label: 'This is a very long label for testing the dropdown field'},
+    { id: 1, label: 'This is a very long label for testing the dropdown field' },
     {
       id: 2,
       label:
         'aaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbb cccccccccccccccccccccc ddddddddddddddddddddddddddddd',
     },
-    {id: 3, label: 'normal length label'},
-    {id: 4, label: null},
-    {id: 5, label: 'ඔක්තෝබර්'},
+    { id: 3, label: 'normal length label' },
+    { id: 4, label: null },
+    { id: 5, label: 'ඔක්තෝබර්' },
   ],
 };
